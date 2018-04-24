@@ -1,5 +1,7 @@
 hostname P1
 !
+mpls label range 100 199
+!
 interface Loopback0
  ip address 1.1.1.1 255.255.255.255
  ip router isis lab

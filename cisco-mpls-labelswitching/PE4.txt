@@ -8,6 +8,8 @@ vrf definition VPN-RED
   route-target import 100:100
  exit-address-family
 !
+mpls label range 400 499
+!
 interface Loopback0
  ip address 4.4.4.4 255.255.255.255
  ip router isis lab
