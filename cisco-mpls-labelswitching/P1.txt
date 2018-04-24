@@ -1,0 +1,25 @@
+hostname P1
+!
+interface Loopback0
+ ip address 1.1.1.1 255.255.255.255
+ ip router isis lab
+!
+interface GigabitEthernet1
+ ip address 192.168.13.1 255.255.255.0
+ ip router isis lab
+ mpls ip
+!
+interface GigabitEthernet2
+ ip address 192.168.12.1 255.255.255.0
+ ip router isis lab
+ mpls ip
+!
+interface GigabitEthernet3
+ ip address 192.168.14.1 255.255.255.0
+!
+router isis lab
+ net 49.0001.0001.0001.0001.00
+ is-type level-2-only
+ metric-style wide
+!
+mpls ldp router-id Loopback0 force
