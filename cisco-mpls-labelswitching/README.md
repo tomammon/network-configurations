@@ -1,3 +1,3 @@
 ### MPLS: Fundamentals of Label Switching
 
-!cisco-mpls-labelswitching.png
+!(cisco-mpls-labelswitching.png)
