@@ -1,0 +1,51 @@
+hostname PE4
+!
+vrf definition VPN-RED
+ rd 4.4.4.4:100
+ !
+ address-family ipv4
+  route-target export 100:100
+  route-target import 100:100
+ exit-address-family
+!
+mpls label range 400 499
+!
+interface Loopback0
+ ip address 4.4.4.4 255.255.255.255
+ ip router isis lab
+!
+interface GigabitEthernet1
+ vrf forwarding VPN-RED
+ ip address 10.1.46.4 255.255.255.0
+!
+interface GigabitEthernet2
+ ip address 192.168.24.4 255.255.255.0
+ ip router isis lab
+ mpls ip
+!
+interface GigabitEthernet3
+ ip address 192.168.14.4 255.255.255.0
+!
+router isis lab
+ net 49.0001.0004.0004.0004.00
+ is-type level-2-only
+ metric-style wide
+!
+router bgp 105
+ bgp router-id 4.4.4.4
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ neighbor 3.3.3.3 remote-as 105
+ neighbor 3.3.3.3 update-source Loopback0
+ !
+ address-family vpnv4
+  neighbor 3.3.3.3 activate
+  neighbor 3.3.3.3 send-community extended
+ exit-address-family
+ !
+ address-family ipv4 vrf VPN-RED
+  neighbor 10.1.46.6 remote-as 6
+  neighbor 10.1.46.6 activate
+ exit-address-family
+!
+mpls ldp router-id Loopback0 force

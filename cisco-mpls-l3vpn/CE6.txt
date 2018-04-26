@@ -1,0 +1,17 @@
+hostname CE6
+!
+interface Loopback0
+ ip address 6.6.6.6 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address 10.1.46.6 255.255.255.0
+!
+interface GigabitEthernet0/1
+ ip address 172.16.67.6 255.255.255.0
+!
+router bgp 6
+ bgp router-id 6.6.6.6
+ bgp log-neighbor-changes
+ network 10.1.46.0 mask 255.255.255.0
+ network 172.16.67.0 mask 255.255.255.0
+ neighbor 10.1.46.4 remote-as 105
