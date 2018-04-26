@@ -1,6 +1,6 @@
 ## MPLS: Fundamentals of L3VPN
 
-![Topology Diagram](https://github.com/tomammon/network-configurations/blob/master/cisco-mpls-labelswitching/cisco-mpls-l3vpn.png)
+![Topology Diagram](https://github.com/tomammon/network-configurations/blob/master/cisco-mpls-l3vpn/cisco-mpls-l3vpn.png)
 
 **Platform: Cisco IOS-XE (CSR1000V 16.5.2)**
 
