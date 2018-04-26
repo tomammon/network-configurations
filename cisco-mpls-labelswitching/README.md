@@ -4,6 +4,9 @@
 
 **Platform: Cisco IOS-XE (CSR1000V 16.5.2)**
 
+### Notes
+  * Each LSR is configured with a custom label range to illustrate the locally-significant nature of label advertisements 
+
 ### PE3
 ```
 PE3#ping 4.4.4.4
