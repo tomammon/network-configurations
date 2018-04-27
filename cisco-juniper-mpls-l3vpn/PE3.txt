@@ -1,0 +1,52 @@
+hostname PE3
+!
+vrf definition VPN-RED
+ rd 3.3.3.3:100
+ !
+ address-family ipv4
+  route-target export 100:100
+  route-target import 100:100
+ exit-address-family
+!
+mpls label range 300 399
+!
+interface Loopback0
+ ip address 3.3.3.3 255.255.255.255
+!
+interface GigabitEthernet1
+ ip address 192.168.13.3 255.255.255.0
+ ip router isis backbone
+ mpls ip
+!
+interface GigabitEthernet2
+ ip address 192.168.23.3 255.255.255.0
+!
+interface GigabitEthernet3
+ vrf forwarding VPN-RED
+ ip address 10.1.35.3 255.255.255.0
+!
+router isis backbone
+ net 49.0001.0003.0003.0003.00
+ is-type level-2-only
+ metric-style wide
+ passive-interface Loopback0
+!
+router bgp 105
+ bgp router-id 3.3.3.3
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ neighbor 4.4.4.4 remote-as 105
+ neighbor 4.4.4.4 update-source Loopback0
+ !
+ address-family vpnv4
+  neighbor 4.4.4.4 activate
+  neighbor 4.4.4.4 send-community extended
+ exit-address-family
+ !
+ address-family ipv4 vrf VPN-RED
+  network 10.1.35.0 mask 255.255.255.0
+  neighbor 10.1.35.5 remote-as 5
+  neighbor 10.1.35.5 activate
+ exit-address-family
+!
+mpls ldp router-id Loopback0 force

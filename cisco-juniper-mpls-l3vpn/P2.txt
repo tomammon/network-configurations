@@ -1,0 +1,63 @@
+system {
+    host-name P2;
+}
+interfaces {
+    em1 {
+        link-mode full-duplex;
+        unit 0 {
+            family inet {
+                address 192.168.12.2/24;
+            }
+            family iso;
+            family mpls;
+        }
+    }
+    em2 {
+        unit 0 {
+            family inet {
+                address 192.168.24.2/24;
+            }
+            family iso;
+            family mpls;
+        }
+    }
+    em3 {
+        unit 0 {
+            family inet {
+                address 192.168.23.2/24;
+            }
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 2.2.2.2/32;
+            }
+            family iso {
+                address 49.0001.0002.0002.0002.00;
+            }
+        }
+    }
+}
+protocols {
+    mpls {
+        interface em1.0;
+        interface em2.0;
+    }
+    isis {
+        interface em1.0 {
+            level 1 disable;
+        }
+        interface em2.0 {
+            level 1 disable;
+        }
+        interface lo0.0;
+    }
+    ldp {
+        interface em1.0;
+        interface em2.0;
+    }
+    lldp {
+        interface all;
+    }
+}

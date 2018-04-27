@@ -1,0 +1,88 @@
+system {
+    host-name PE4;
+}
+interfaces {
+    em1 {
+        link-mode full-duplex;
+        unit 0 {
+            family inet {
+                address 10.1.46.4/24;
+            }
+        }
+    }
+    em2 {
+        unit 0 {
+            family inet {
+                address 192.168.24.4/24;
+            }
+            family iso;
+            family mpls;
+        }
+    }
+    em3 {
+        unit 0 {
+            family inet {
+                address 192.168.14.4/24;
+            }
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 4.4.4.4/32;
+            }
+            family iso {
+                address 49.0001.0004.0004.0004.00;
+            }
+        }
+    }
+}
+routing-options {
+    router-id 4.4.4.4;
+    autonomous-system 105;
+}
+protocols {
+    mpls {
+        interface em2.0;
+    }
+    bgp {
+        group LABPE {
+            type internal;
+            local-address 4.4.4.4;
+            family inet-vpn {
+                unicast;
+            }
+            neighbor 3.3.3.3;
+        }
+    }
+    isis {
+        interface em2.0 {
+            level 1 disable;
+        }
+        interface lo0.0;
+    }
+    ldp {
+        interface em2.0;
+    }
+    lldp {
+        interface all;
+    }
+}
+routing-instances {
+    VPN-RED {
+        instance-type vrf;
+        interface em1.0;
+        route-distinguisher 4.4.4.4:100;
+        vrf-target target:100:100;
+        vrf-table-label;
+        protocols {
+            bgp {
+                group CE6 {
+                    type external;
+                    peer-as 6;
+                    neighbor 10.1.46.6;
+                }
+            }
+        }
+    }
+}
